@@ -28,24 +28,24 @@ SMS_BY_Sample
       oStart.sendSmsMessageWithCode("Your password is: %CODE%", "245", phone,alphaname_id  );
 
       "Your password: %CODE%" - message text
-      %CODE% - mandatory parameters, we substitute %CODE% for generated password sent to a user 
+      %CODE% - mandatory parameter, we substitute %CODE% for generated password sent to a user 
     
       "245" -  PasswordObject's ID 
       phone - Recepient phone number
       alphaname_id - Sender ID, if 0 default Sender ID would be used
 
-      sendSmsMessageWithCode вернет:
+      a call to sendSmsMessageWithCode returns:
         {"status":"ok","parts":1,"len":21,"sms_id":2208471,"code":"GAYXILYZOX"}
 
-      Из этого сообщения вам надо получить код, который будет вводить пользователь на форме двухфакторной авторизации
+      The code for 2FA to compare in your app is:
         code = GAYXILYZOX
 
-   * Метод-обёртка для команды createPasswordObject
-   * type_id - тип создаваемого объекта пароля, может принимать значения letters, numbers и both
-   * len - длина создаваемого объекта пароля, целое число от 1 до 16
-   *  Пример ответа: {"result":{"password_object_id":243}}
+   * Wrapper method for createPasswordObject
+   * type_id - Password type to be used: letters, numbers or both
+   * len - password length, integer between 1 and 16
+   *  Response sample: {"result":{"password_object_id":243}}
       @return: String - ID password Object
    */
  
- Параметры метода: 
+ Method declaration
  public String createPasswordObject(String type, Integer len)
