@@ -17,7 +17,7 @@ In order to setup 2FA you need to create a PasswordObject.
     Password configuration:
 
      // Password configuration for 2FA, password length = 5 chars 
-SMS_BY_Sample
+
 
          createPasswordObject(SMS_BY.PASS_TYPE_LETTERS, 5) ; // Only latin charachters 
          createPasswordObject(SMS_BY.PASS_TYPE_NUMBERS, 5) ; // Only digits
