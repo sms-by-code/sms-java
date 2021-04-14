@@ -437,7 +437,7 @@ class SMS_BY
    * alphaname_id - ID альфа-имени, необязательный параметр
 
      Пример ответа:
-      [{"status":"ok","parts":1,"len":21,"sms_id":2208471,"code":"GAYXILYZOX"}]
+      {"status":"ok","parts":1,"len":21,"sms_id":2208471,"code":"GAYXILYZOX"}
    */
   public String sendSmsMessageWithCode(String message, String password_object_id, String phone, Integer alphaname_id )
   {
