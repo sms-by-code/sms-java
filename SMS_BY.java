@@ -14,7 +14,7 @@ import com.google.gson.*;
 
 /**
     Class to send sms through SMS.BY sms/viber/voice service
-    Compilating using command line:  javac -cp $CLASSPATH SMSBY_Sample.java
+    Compile using command line:  javac -cp $CLASSPATH SMSBY_Sample.java
 */
 
 class SMS_BY
@@ -37,19 +37,29 @@ class SMS_BY
        if (!token.isEmpty() )
           this.token = token;
       else {
-          this.print("Код токена не указан. Вы можете получить его здесь: " + this.m_URL + "user-api/token");
+          
+          this.print("Код токена не указан. No Token specified. Вы можете получить его здесь: " + this.m_URL + "user-api/token");
           System.exit(-1);
       }
     }
 
-    /**
+   /**
+     * Sends requests to the API_URL 
+     * If the request was successful, returns a JSON String 
+     * If the request failed, calls error() and returns null 
+     * 
+     * Parameters: 
+     * @param String command - A command request to the API, like getBalance, sendQuickSms, etc 
+     * @param Map <String, String> hParams - A key-value Map of params to be called with command, like /v1/sendQuickSms?token=param1&phone=param2, etc 
+     * Note that you don't need to include token in Map
+     * 
      * Отправляет команду на API_URL.
      * Если команда обработана успешно, возвращает ответ от API в виде объекта.
      * Если команда обработана неуспешно - передаёт ошибку методу error() и возвращает false.
      *  command - команда API
      *  params - ассоциативный массив, ключи которого являются названиями параметров команды кроме token, значения - их значениями.
      *  token в params передавать не нужно.
-     * Необязательный параметр, так как для таких команд, как getLimit, getMessagesList, getPasswordObjects никаких параметров передавать не нужно.
+     *  Необязательный параметр, так как для таких команд, как getLimit, getMessagesList, getPasswordObjects никаких параметров передавать не нужно.
      */
     private String sendRequest(String command, Map <String, String> hParams)
     {
@@ -103,6 +113,7 @@ class SMS_BY
 
     /*
         Метод для отправки запросов без параметров
+        Wrapper method for calling API methods without params  
     */
     private String sendRequest(String command)
     {
@@ -114,8 +125,12 @@ class SMS_BY
      * Метод-обёртка для команды sendSms
      * message - Текст созданного сообщения
      * phone - номер телефона в международном формате [country-code][operator][number], пример: 79061234567
-
-       Sample output: {"sms_id":2197871,"status":"NEW"}
+     *
+     *  A method to send quick sms message, usually used in case you need single at a time.   
+     *  @param String message An sms message 
+     *  @param String phone   Phone number, for example: 18434481706
+     *  @return String Sample output: {"sms_id":2197871,"status":"NEW"}
+     *  
      */
 
     public String sendQuickSms(String message, String phone)
@@ -139,7 +154,8 @@ class SMS_BY
   /**
    * Метод-обёртка для команды getLimit
      Пример ответа
-      {"limit":141}
+     A method returns a number of messages that can be sent using the money on the account 
+     @return String Sample output: {"limit":141}
    */
   public String getLimit()
   {
@@ -283,6 +299,9 @@ class SMS_BY
   }
 
   /**
+   
+    This method is used for 2FA. You can read about how it works in README_EN.md  
+  
     PasswordObject - это настройки, которые вы можете использовать в двухфактороной верификации
      Например вам надо, чтобы пароль состоял только из только букв или только цифр или и то и другое, с длиной пароля в 5 символов.
 
@@ -316,7 +335,9 @@ class SMS_BY
    * len - длина создаваемого объекта пароля, целое число от 1 до 16
    *  Пример ответа: {"result":{"password_object_id":243}}
 
-      @return: String - ID password Object
+      @param   type  password type, one of: letters, numbers, both
+      @param   len   password length, between 1 and 16
+      @return: String -  Password Object ID, Sample output: {"result":{"password_object_id":243}} 
    */
   public String createPasswordObject(String type, Integer len)
   {
@@ -399,7 +420,6 @@ class SMS_BY
              return "OK";
            }
            return null;
-
       }
       return null;
   }
@@ -430,14 +450,20 @@ class SMS_BY
   }
 
   /**
+   * This method is used to send passwords to users after you configured a PasswordObject  
    * Метод-обёртка для команды sendSmsMessageWithCode
    * message - текст создаваемого сообщения
    * password_object_id - ID созданного объекта пароля
    * phone - номер телефона в формате 375291234567
    * alphaname_id - ID альфа-имени, необязательный параметр
-
-     Пример ответа:
-      {"status":"ok","parts":1,"len":21,"sms_id":2208471,"code":"GAYXILYZOX"}
+   *
+   *  @param message Message text, usually with %CODE% string  
+   *  @param password_object_id p
+   *  @param phone
+   *  @param alphaname_id - SenderID or 0. If SenderID=0, default SenderID would be used. 
+   *  
+   *  Пример ответа:
+   *   {"status":"ok","parts":1,"len":21,"sms_id":2208471,"code":"GAYXILYZOX"}
    */
   public String sendSmsMessageWithCode(String message, String password_object_id, String phone, Integer alphaname_id )
   {
