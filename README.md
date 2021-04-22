@@ -5,7 +5,7 @@
 SMS_BY - класс, который упрощает работу с API SMS.BY 
 Качаете, указываете токен и можете сразу делать смс рассылку как одиночную, так и для массовых сообщений. 
 
-StartSendSample - множество примеров работы с API StartSend, в том числе двухфакторная авторизация. 
+SMS_BY_Sample.java - множество примеров работы с API SMS.BY, в том числе двухфакторная авторизация. 
 
 Для того, чтобы настроить двухфакторную авторизацию вам нужно создать PasswordObject. 
 
@@ -18,9 +18,9 @@ StartSendSample - множество примеров работы с API StartS
 
      // настройка длины пароля при двухфакторной авторизации с длиной пароля в 5 символов.
 
-         createPasswordObject(StartSend.PASS_TYPE_LETTERS, 5) ; // только буквы латиницы
-         createPasswordObject(StartSend.PASS_TYPE_NUMBERS, 5) ; // только цифры
-         createPasswordObject(StartSend.PASS_TYPE_BOTH, 5) ;    // и буквы и цифры
+         createPasswordObject(SMS_BY.PASS_TYPE_LETTERS, 5) ; // только буквы латиницы
+         createPasswordObject(SMS_BY.PASS_TYPE_NUMBERS, 5) ; // только цифры
+         createPasswordObject(SMS_BY.PASS_TYPE_BOTH, 5) ;    // и буквы и цифры
 
     Чтобы отправить смс с кодом нужно сделать вызов:
 
